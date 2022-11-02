@@ -18,10 +18,12 @@ public class TokenFilter implements Filter {
         //获取token
         String token = null;
         Cookie[] cookies = req.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                token = cookie.getValue();
-                break;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    token = cookie.getValue();
+                    break;
+                }
             }
         }
         //与数据库中token比对,并更新
