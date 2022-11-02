@@ -9,7 +9,7 @@ $().ready(() => {
             url: "../../exit/servlet",
             type: "GET",
             success: () => {
-                location.href = "../../index.html";
+                location.href = "../../common/exit.html";
             }
         })
     })

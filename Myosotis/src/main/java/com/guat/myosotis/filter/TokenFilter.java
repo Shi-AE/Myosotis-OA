@@ -43,7 +43,7 @@ public class TokenFilter implements Filter {
                     session.setAttribute("employId",employId);
                     session.setAttribute("type", "user");
                     //重定向进入主页面
-                    resp.sendRedirect(req.getContextPath() + "main/user/home.html");
+                    resp.sendRedirect(req.getContextPath() + "/main/user/home.html");
                 } else {
                     // 输出异地登录信息
                     filterChain.doFilter(servletRequest, servletResponse);

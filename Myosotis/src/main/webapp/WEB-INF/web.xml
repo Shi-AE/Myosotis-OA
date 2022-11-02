@@ -5,6 +5,15 @@
          version="5.0" metadata-complete="false">
 
     <filter>
+        <filter-name>LoggedFilter</filter-name>
+        <filter-class>com.guat.myosotis.filter.LoggedFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoggedFilter</filter-name>
+        <url-pattern>/index.html</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>TokenFilter</filter-name>
         <filter-class>com.guat.myosotis.filter.TokenFilter</filter-class>
     </filter>
