@@ -34,7 +34,7 @@ public class RegisterSearchServlet extends HttpServlet {
             }
             registerSearchJson.setSkip(skip);
             if (skip) {
-                registerSearchJson.setUrl("common/error.html");
+                registerSearchJson.setUrl("error.html");
             }
 //            System.out.println(JSON.toJSONString(registerSearchJson));
             out.write(JSON.toJSONString(registerSearchJson));
@@ -43,7 +43,7 @@ public class RegisterSearchServlet extends HttpServlet {
             e.printStackTrace();
             out.write(
                     JSON.toJSONString(
-                            new RegisterSearchJson(true, "common/error.html", null)
+                            new RegisterSearchJson(true, "error.html", null)
                     )
             );
         }
