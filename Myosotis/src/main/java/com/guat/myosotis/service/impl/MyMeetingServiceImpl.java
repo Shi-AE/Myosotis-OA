@@ -24,13 +24,13 @@ public class MyMeetingServiceImpl implements MyMeetingService {
         }
         //合并会议信息
         myMeeting.setEmployId(employId);
-        //存入会议信息
-        int count = meetingDao.insert(myMeeting);
-        SqlSessionUtil.commitSqlSession();
-        if (count == 1) {
-            return true;
+        try {
+            //存入会议信息
+            int count = meetingDao.insert(myMeeting);
+            return count == 1;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
         }
-        return false;
     }
 
     @Override
@@ -38,26 +38,28 @@ public class MyMeetingServiceImpl implements MyMeetingService {
         MyMeetingDao myMeetingDao = new MyMeetingDaoImpl();
         UserDao userDao = new UserDaoImpl();
         String employId;
-        if (account.contains("@")) {
-            employId = userDao.selectEmployIdByEmil(account);
-        } else {
-            employId = userDao.selectEmployIdByPhoneNumber(account);
+        try {
+            if (account.contains("@")) {
+                employId = userDao.selectEmployIdByEmil(account);
+            } else {
+                employId = userDao.selectEmployIdByPhoneNumber(account);
+            }
+            return myMeetingDao.selectAllByEmploy(employId);
+        } finally {
+            SqlSessionUtil.commitSqlSession();
         }
-        List<MyMeeting> myMeetings = myMeetingDao.selectAllByEmploy(employId);
-        SqlSessionUtil.commitSqlSession();
-        return myMeetings;
     }
 
     @Override
     public boolean deleteMeeting(String sId) {
         Long id = Long.valueOf(sId);
         MyMeetingDao myMeetingDao = new MyMeetingDaoImpl();
-        int count = myMeetingDao.deleteById(id);
-        SqlSessionUtil.commitSqlSession();
-        if (count == 1) {
-            return true;
+        try {
+            int count = myMeetingDao.deleteById(id);
+            return count == 1;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
         }
-        return false;
     }
 
 

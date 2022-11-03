@@ -19,6 +19,7 @@ public class DocumentServiceImpl implements DocumentService {
         InputStream inputStream = file.getInputStream();
         int available = inputStream.available();
         byte[] bytes = new byte[available];
+        //noinspection ResultOfMethodCallIgnored
         inputStream.read(bytes);
         return bytes;
     }
@@ -26,54 +27,64 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public String getTargetEmployId(String name) {
         EmployDao employDao = new EmployDaoImpl();
-        String employId = employDao.selectEmployIdByName(name);
-        SqlSessionUtil.commitSqlSession();
-        return employId;
+        try {
+            return employDao.selectEmployIdByName(name);
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
+
     }
 
     @Override
     public boolean sendDocument(Document document) {
         DocumentDao documentDao = new DocumentDaoImpl();
-        int insert = documentDao.insert(document);
-        SqlSessionUtil.commitSqlSession();
-        if (insert == 1) {
-            return true;
+        try {
+            int insert = documentDao.insert(document);
+            return insert == 1;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
         }
-        return false;
     }
 
     @Override
     public List<Document> getDocumentInfo(String employId) {
         DocumentDao documentDao = new DocumentDaoImpl();
         EmployDao employDao = new EmployDaoImpl();
-        List<Document> documents = documentDao.selectAll(employId);
-        documents.forEach((e) -> {
-            String sender = e.getSender();
-            sender = employDao.selectNameByEmployId(sender);
-            e.setSender(sender);
-        });
-        SqlSessionUtil.commitSqlSession();
-        return documents;
+        try {
+            List<Document> documents = documentDao.selectAll(employId);
+            documents.forEach((e) -> {
+                String sender = e.getSender();
+                sender = employDao.selectNameByEmployId(sender);
+                e.setSender(sender);
+            });
+            return documents;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
     }
 
     @Override
     public byte[] getFile(String sId) {
         Long id = Long.valueOf(sId);
         DocumentDao documentDao = new DocumentDaoImpl();
-        byte[] bytes = documentDao.selectFileById(id);
-        SqlSessionUtil.commitSqlSession();
-        return bytes;
+        try {
+            return documentDao.selectFileById(id);
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
+
     }
 
     @Override
     public boolean deleteFile(String sId) {
         Long id = Long.valueOf(sId);
         DocumentDao documentDao = new DocumentDaoImpl();
-        int count = documentDao.deleteFileById(id);
-        SqlSessionUtil.commitSqlSession();
-        if (count == 1) {
-            return true;
+        try {
+            int count = documentDao.deleteFileById(id);
+            return count == 1;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
         }
-        return false;
+
     }
 }

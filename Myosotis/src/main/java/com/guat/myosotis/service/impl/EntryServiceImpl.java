@@ -70,13 +70,15 @@ public class EntryServiceImpl implements EntryService {
         String token = MD5.MD5CreateToken(account, ip);
         //数据库查账号，存token
         UserDao userDao = new UserDaoImpl();
-        if (account.contains("@")) {
-            userDao.updateTokenByEmil(account, token);
-        } else {
-            userDao.updateTokenByPhoneNumber(account, token);
+        try {
+            if (account.contains("@")) {
+                userDao.updateTokenByEmil(account, token);
+            } else {
+                userDao.updateTokenByPhoneNumber(account, token);
+            }
+        } finally {
+            SqlSessionUtil.commitSqlSession();
         }
-        //提交
-        SqlSessionUtil.commitSqlSession();
         //token存cookie
         Cookie cookie = new Cookie("token", token);
         //保存10天
@@ -88,41 +90,51 @@ public class EntryServiceImpl implements EntryService {
     @Override
     public String tokenVerify(String token) {
         UserDao userDao = new UserDaoImpl();
-        User user = userDao.selectByToken(token);
-        SqlSessionUtil.commitSqlSession();
-        if (user != null) {
-            String emil = user.getEmil();
-            String phoneNumber = user.getPhoneNumber();
-            if (emil != null)
-            {
-                return emil;
-            } else {
-                return phoneNumber;
+        try {
+            User user = userDao.selectByToken(token);
+            if (user != null) {
+                String emil = user.getEmil();
+                String phoneNumber = user.getPhoneNumber();
+                if (emil != null)
+                {
+                    return emil;
+                } else {
+                    return phoneNumber;
+                }
             }
+            return null;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
         }
-        return null;
     }
 
     @Override
     public String getEmployId(String account) {
         UserDao userDao = new UserDaoImpl();
-        String employId;
-        if (account.contains("@")) {
-            //查邮箱
-             employId = userDao.selectEmployIdByEmil(account);
-        } else {
-            //查手机
-            employId = userDao.selectEmployIdByPhoneNumber(account);
+        try {
+            String employId;
+            if (account.contains("@")) {
+                //查邮箱
+                employId = userDao.selectEmployIdByEmil(account);
+            } else {
+                //查手机
+                employId = userDao.selectEmployIdByPhoneNumber(account);
+            }
+            return employId;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
         }
-        SqlSessionUtil.commitSqlSession();
-        return employId;
     }
 
     @Override
     public List<Admin> getAdminList() {
         AdminDao adminDao = new AdminDaoImpl();
-        List<Admin> admins = adminDao.selectAllAdmin();
-        SqlSessionUtil.commitSqlSession();
+        List<Admin> admins;
+        try {
+            admins = adminDao.selectAllAdmin();
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
         return admins;
     }
 }

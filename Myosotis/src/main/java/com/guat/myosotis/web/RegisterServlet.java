@@ -47,14 +47,14 @@ public class RegisterServlet extends HttpServlet {
             if (passVerify) {
                 if (parameterMap.get("password")[0].equals(parameterMap.get("confirm-password")[0])) {
                     //封装信息
-                    // 向数据库录入信息
+                    //向数据库录入信息
                     RegisterService registerService = new RegisterServiceImpl();
                     //获取员工信息对象
                     Employ employ = registerService.creatEmploy(parameterMap);
                     //获取用户对象
                     registerService.creatUser(parameterMap, employ);
                     //跳转登录页面
-                    out.write(JSON.toJSONString(new RegisterFormJson(true, null, "")));
+                    out.write(JSON.toJSONString(new RegisterFormJson(true, null, "../")));
                 } else {
                     //确认密码错误
                     registerFormJson.addError("confirm-password");
@@ -69,7 +69,7 @@ public class RegisterServlet extends HttpServlet {
         } catch (Exception e) {
             //未知错误
             e.printStackTrace();
-            out.write(JSON.toJSONString(new EntryJson(true, null, "common/error.html")));
+            out.write(JSON.toJSONString(new EntryJson(true, null, "error.html")));
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.guat.myosotis.web;
 
 import com.alibaba.fastjson2.JSON;
-import com.guat.myosotis.dao.impl.HrmServiceImpl;
+import com.guat.myosotis.service.impl.HrmServiceImpl;
 import com.guat.myosotis.service.HrmService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

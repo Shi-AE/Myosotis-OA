@@ -13,15 +13,20 @@ public class RegisterSearchServiceImpl implements RegisterSearchService {
     @Override
     public List<String> managerSearch() {
         EmployDao employDao = new EmployDaoImpl();
-        List<String> names = employDao.selectAllName();
-        SqlSessionUtil.commitSqlSession();
-        return names;
+        try {
+            return employDao.selectAllName();
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
     }
 
     @Override
     public List<String> deptSearch() {
         DeptDao deptDao = new DeptDaoImpl();
-        List<String> names = deptDao.selectAllName();
-        return names;
+        try {
+            return deptDao.selectAllName();
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
     }
 }

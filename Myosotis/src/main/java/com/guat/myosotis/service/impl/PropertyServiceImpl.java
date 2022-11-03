@@ -12,47 +12,47 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public boolean addProperty(Property property) {
         PropertyDao propertyDao = new PropertyDaoImpl();
-        int count = 0;
         try {
-            count = propertyDao.insert(property);
-        } catch (Exception e) {
-            e.printStackTrace();
+            int count = propertyDao.insert(property);
+            return count == 1;
         } finally {
             SqlSessionUtil.commitSqlSession();
         }
-        return count == 1;
     }
 
     @Override
     public List<Property> getPropertyList() {
         PropertyDao propertyDao = new PropertyDaoImpl();
-        List<Property> properties = propertyDao.selectAll();
-        SqlSessionUtil.commitSqlSession();
-        return properties;
+        try {
+            return propertyDao.selectAll();
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
     }
 
     @Override
     public boolean updateProperty(String sId, String sNumber) {
         PropertyDao propertyDao = new PropertyDaoImpl();
-        int count = 0;
         try {
             Long id = Long.valueOf(sId);
             int number = Integer.parseInt(sNumber);
-            count = propertyDao.updatePropertyById(new Property(id, null, number));
-        } catch (Exception e) {
-            e.printStackTrace();
+            int count = propertyDao.updatePropertyById(new Property(id, null, number));
+            return count == 1;
         } finally {
             SqlSessionUtil.commitSqlSession();
         }
-        return count == 1;
+
     }
 
     @Override
     public boolean deleteProperty(String sId) {
         Long id = Long.valueOf(sId);
         PropertyDao propertyDao = new PropertyDaoImpl();
-        int count = propertyDao.deletePropertyById(id);
-        SqlSessionUtil.commitSqlSession();
-        return count == 1;
+        try {
+            int count = propertyDao.deletePropertyById(id);
+            return count == 1;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
     }
 }

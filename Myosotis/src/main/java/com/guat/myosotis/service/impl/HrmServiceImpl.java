@@ -1,10 +1,12 @@
-package com.guat.myosotis.dao.impl;
+package com.guat.myosotis.service.impl;
 
 import com.guat.myosotis.bean.Admin;
 import com.guat.myosotis.bean.Cipher;
 import com.guat.myosotis.bean.User;
 import com.guat.myosotis.dao.AdminDao;
 import com.guat.myosotis.dao.UserDao;
+import com.guat.myosotis.dao.impl.AdminDaoImpl;
+import com.guat.myosotis.dao.impl.UserDaoImpl;
 import com.guat.myosotis.service.HrmService;
 import com.guat.myosotis.util.MD5;
 import com.guat.myosotis.util.SqlSessionUtil;
@@ -14,36 +16,36 @@ public class HrmServiceImpl implements HrmService {
     public boolean updateUserPassword(String account, String password) {
         Cipher cipher = MD5.MD5AddSalt(password);
         UserDao userDao = new UserDaoImpl();
-        User user;
-        int count = 0;
-        if (account.contains("@")) {
-            user = new User(
-                    null,
-                    cipher.getCipherText(),
-                    cipher.getSalt(),
-                    null,
-                    account,
-                    "",
-                    null
-            );
-            count = userDao.updatePasswordByEmil(user);
-        } else {
-            user = new User(
-                    null,
-                    cipher.getCipherText(),
-                    cipher.getSalt(),
-                    account,
-                    null,
-                    "",
-                    null
-            );
-            count = userDao.updatePasswordByPhoneNumber(user);
+        try {
+            User user;
+            int count;
+            if (account.contains("@")) {
+                user = new User(
+                        null,
+                        cipher.getCipherText(),
+                        cipher.getSalt(),
+                        null,
+                        account,
+                        "",
+                        null
+                );
+                count = userDao.updatePasswordByEmil(user);
+            } else {
+                user = new User(
+                        null,
+                        cipher.getCipherText(),
+                        cipher.getSalt(),
+                        account,
+                        null,
+                        "",
+                        null
+                );
+                count = userDao.updatePasswordByPhoneNumber(user);
+            }
+            return count == 1;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
         }
-        SqlSessionUtil.commitSqlSession();
-        if (count == 1) {
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -57,18 +59,12 @@ public class HrmServiceImpl implements HrmService {
                 handle,
                 null
         );
-        int count = 0;
         try {
-            count = adminDao.updatePasswordByAccount(admin);
-        } catch (Exception e) {
-            e.printStackTrace();
+            int count = adminDao.updatePasswordByAccount(admin);
+            return count == 1;
         } finally {
             SqlSessionUtil.commitSqlSession();
         }
-        if (count == 1) {
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -77,17 +73,12 @@ public class HrmServiceImpl implements HrmService {
         admin.setCipherText(cipher.getCipherText());
         admin.setSalt(cipher.getSalt());
         AdminDao adminDao = new AdminDaoImpl();
-        int count = 0;
         try {
-            count = adminDao.insertAdmin(admin);
-        } catch (Exception e) {
-            e.printStackTrace();
+            int count = adminDao.insertAdmin(admin);
+            return count == 1;
         } finally {
             SqlSessionUtil.commitSqlSession();
         }
-        if (count == 1) {
-            return true;
-        }
-        return false;
+
     }
 }

@@ -23,22 +23,25 @@ public class RegisterServiceImpl implements RegisterService {
         Employ employ = new Employ();
         EmployDao employDao = new EmployDaoImpl();
         DeptDao deptDao = new DeptDaoImpl();
-        //获取上级领导编号
-        String managerId = employDao.selectEmployIdByName(parameterMap.get("manager")[0]);
-        employ.setManagerId(managerId);
-        //获取部门编号
-        String deptId = deptDao.selectDeptIdByName(parameterMap.get("dept")[0]);
-        employ.setDeptId(deptId);
-        //添加信息
-        employ.setHireDate(parameterMap.get("date")[0]);
-        employ.setJob(parameterMap.get("job")[0]);
-        employ.setName(parameterMap.get("name")[0]);
-        //制作员工编号
-        employ.setEmployId(EmployIdUtil.stringify(employ));
-        //录入数据库
-        employDao.insertEmploy(employ);
-        SqlSessionUtil.commitSqlSession();
-        return employ;
+        try {
+            //获取上级领导编号
+            String managerId = employDao.selectEmployIdByName(parameterMap.get("manager")[0]);
+            employ.setManagerId(managerId);
+            //获取部门编号
+            String deptId = deptDao.selectDeptIdByName(parameterMap.get("dept")[0]);
+            employ.setDeptId(deptId);
+            //添加信息
+            employ.setHireDate(parameterMap.get("date")[0]);
+            employ.setJob(parameterMap.get("job")[0]);
+            employ.setName(parameterMap.get("name")[0]);
+            //制作员工编号
+            employ.setEmployId(EmployIdUtil.stringify(employ));
+            //录入数据库
+            employDao.insertEmploy(employ);
+            return employ;
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
     }
 
     @Override
@@ -53,8 +56,11 @@ public class RegisterServiceImpl implements RegisterService {
         user.setSalt(cipher.getSalt());
         //录入数据库
         UserDao userDao = new UserDaoImpl();
-        userDao.insertUser(user);
-        SqlSessionUtil.commitSqlSession();
+        try {
+            userDao.insertUser(user);
+        } finally {
+            SqlSessionUtil.commitSqlSession();
+        }
         return user;
     }
 }
