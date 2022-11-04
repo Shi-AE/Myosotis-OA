@@ -22,10 +22,16 @@ public class SuggestDeleteServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         //获取
         String id = req.getParameter("id");
-        //删除
-        SuggestService suggestService = new SuggestServiceImpl();
-        boolean success = suggestService.deleteSuggest(id);
-        //反馈
-        out.write(JSON.toJSONString(success));
+        boolean success = false;
+        try {
+            //删除
+            SuggestService suggestService = new SuggestServiceImpl();
+            success = suggestService.deleteSuggest(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //反馈
+            out.write(JSON.toJSONString(success));
+        }
     }
 }

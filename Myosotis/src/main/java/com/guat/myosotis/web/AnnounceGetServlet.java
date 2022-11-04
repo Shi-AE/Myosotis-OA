@@ -20,8 +20,14 @@ public class AnnounceGetServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        //获取公告
-        AnnounceService announceService = new AnnounceServiceImpl();
-        out.write(JSON.toJSONString(announceService));
+        AnnounceService announceService = null;
+        try {
+            //获取公告
+            announceService = new AnnounceServiceImpl();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            out.write(JSON.toJSONString(announceService));
+        }
     }
 }

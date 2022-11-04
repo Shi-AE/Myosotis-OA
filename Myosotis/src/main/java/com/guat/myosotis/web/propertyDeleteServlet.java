@@ -23,8 +23,16 @@ public class propertyDeleteServlet extends HttpServlet {
         //获取编号
         String id = req.getParameter("id");
         PropertyService propertyService = new PropertyServiceImpl();
-        boolean success = propertyService.deleteProperty(id);
-        //返回
-        out.write(JSON.toJSONString(success));
+        boolean success = false;
+        try {
+            success = propertyService.deleteProperty(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //返回
+            out.write(JSON.toJSONString(success));
+        }
+
+
     }
 }

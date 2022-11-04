@@ -32,7 +32,7 @@ public class propertyAddServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-         out.write(JSON.toJSONString(success));
+            out.write(JSON.toJSONString(success));
         }
     }
 }

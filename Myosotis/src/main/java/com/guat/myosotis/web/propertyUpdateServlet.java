@@ -25,7 +25,13 @@ public class propertyUpdateServlet extends HttpServlet {
         String number = req.getParameter("number");
         //更改
         PropertyService propertyService = new PropertyServiceImpl();
-        boolean success = propertyService.updateProperty(id, number);
-        out.write(JSON.toJSONString(success));
+        boolean success = false;
+        try {
+            success = propertyService.updateProperty(id, number);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            out.write(JSON.toJSONString(success));
+        }
     }
 }

@@ -22,9 +22,15 @@ public class DocumentDeleteServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         //获取页面信息
         String id = req.getParameter("id");
-        //通过id查找文件
-        DocumentService documentService = new DocumentServiceImpl();
-        boolean success = documentService.deleteFile(id);
-        out.write(JSON.toJSONString(success));
+        boolean success = false;
+        try {
+            //通过id查找文件
+            DocumentService documentService = new DocumentServiceImpl();
+            success = documentService.deleteFile(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            out.write(JSON.toJSONString(success));
+        }
     }
 }

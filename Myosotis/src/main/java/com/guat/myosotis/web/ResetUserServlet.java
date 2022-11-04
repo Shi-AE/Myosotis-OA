@@ -25,7 +25,13 @@ public class ResetUserServlet extends HttpServlet {
         String password = req.getParameter("password");
         //重置
         HrmService hrmService = new HrmServiceImpl();
-        boolean success = hrmService.updateUserPassword(account, password);
-        out.write(JSON.toJSONString(success));
+        boolean success = false;
+        try {
+            success = hrmService.updateUserPassword(account, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            out.write(JSON.toJSONString(success));
+        }
     }
 }

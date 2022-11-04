@@ -24,9 +24,17 @@ public class AnnounceDeleteServlet extends HttpServlet {
         //获取
         String path = this.getServletContext().getRealPath("/");
         String id = req.getParameter("id");
-        //删除
-        boolean success = announceService.deleteAnnounce(id, path);
-        //返回
-        out.write(JSON.toJSONString(success));
+        boolean success = false;
+        try {
+            //删除
+            success = announceService.deleteAnnounce(id, path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //返回
+            out.write(JSON.toJSONString(success));
+        }
+
+
     }
 }

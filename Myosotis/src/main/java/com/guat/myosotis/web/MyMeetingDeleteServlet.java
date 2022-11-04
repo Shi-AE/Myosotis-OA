@@ -22,10 +22,18 @@ public class MyMeetingDeleteServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         //获取
         String id = req.getParameter("id");
-        //删除
-        MyMeetingService myMeetingService = new MyMeetingServiceImpl();
-        boolean success = myMeetingService.deleteMeeting(id);
-        //返回
-        out.write(JSON.toJSONString(success));
+        boolean success = false;
+        try {
+            //删除
+            MyMeetingService myMeetingService = new MyMeetingServiceImpl();
+            success = myMeetingService.deleteMeeting(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //返回
+            out.write(JSON.toJSONString(success));
+        }
+
+
     }
 }

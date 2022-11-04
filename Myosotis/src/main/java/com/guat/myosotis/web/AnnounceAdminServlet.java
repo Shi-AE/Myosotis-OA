@@ -30,16 +30,21 @@ public class AnnounceAdminServlet extends HttpServlet {
         Part file = req.getPart("file");
         String title = req.getParameter("title");
         String content = req.getParameter("content");
-        if (file.getSubmittedFileName() != null) {
-            //存图
-            String name = UUID.randomUUID() + file.getSubmittedFileName();
-            String path = this.getServletContext().getRealPath("/");
-            file.write(path + "/img/announce/" + name);
-            //存数据库
-            Announce announce = new Announce(null, title, content, name);
-            AnnounceService announceService = new AnnounceServiceImpl();
-            success = announceService.insertAnnounce(announce);
+        try {
+            if (file.getSubmittedFileName() != null) {
+                //存图
+                String name = UUID.randomUUID() + file.getSubmittedFileName();
+                String path = this.getServletContext().getRealPath("/");
+                file.write(path + "/img/announce/" + name);
+                //存数据库
+                Announce announce = new Announce(null, title, content, name);
+                AnnounceService announceService = new AnnounceServiceImpl();
+                success = announceService.insertAnnounce(announce);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            out.write(JSON.toJSONString(success));
         }
-        out.write(JSON.toJSONString(success));
     }
 }

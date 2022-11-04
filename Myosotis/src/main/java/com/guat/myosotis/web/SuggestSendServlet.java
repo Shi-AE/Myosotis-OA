@@ -24,10 +24,16 @@ public class SuggestSendServlet extends HttpServlet {
         String target = req.getParameter("target");
         String content = req.getParameter("content");
         String employId = (String) req.getSession().getAttribute("employId");
-        //加入数据库
-        SuggestService suggestService = new SuggestServiceImpl();
-        boolean success = suggestService.insert(target, content, employId);
-        //反馈
-        out.write(JSON.toJSONString(success));
+        boolean success = false;
+        try {
+            //加入数据库
+            SuggestService suggestService = new SuggestServiceImpl();
+            success = suggestService.insert(target, content, employId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //反馈
+            out.write(JSON.toJSONString(success));
+        }
     }
 }
