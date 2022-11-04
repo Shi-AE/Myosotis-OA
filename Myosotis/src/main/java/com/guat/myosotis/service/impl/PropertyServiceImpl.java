@@ -14,9 +14,10 @@ public class PropertyServiceImpl implements PropertyService {
         PropertyDao propertyDao = new PropertyDaoImpl();
         try {
             int count = propertyDao.insert(property);
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -24,9 +25,11 @@ public class PropertyServiceImpl implements PropertyService {
     public List<Property> getPropertyList() {
         PropertyDao propertyDao = new PropertyDaoImpl();
         try {
-            return propertyDao.selectAll();
-        } finally {
+            List<Property> properties = propertyDao.selectAll();
             SqlSessionUtil.commitSqlSession();
+            return properties;
+        } finally {
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -37,9 +40,10 @@ public class PropertyServiceImpl implements PropertyService {
             Long id = Long.valueOf(sId);
             int number = Integer.parseInt(sNumber);
             int count = propertyDao.updatePropertyById(new Property(id, null, number));
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
 
     }
@@ -50,9 +54,10 @@ public class PropertyServiceImpl implements PropertyService {
         PropertyDao propertyDao = new PropertyDaoImpl();
         try {
             int count = propertyDao.deletePropertyById(id);
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 }

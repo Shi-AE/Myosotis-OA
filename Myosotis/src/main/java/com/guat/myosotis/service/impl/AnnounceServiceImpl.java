@@ -15,10 +15,10 @@ public class AnnounceServiceImpl implements AnnounceService {
         AnnounceDao announceDao = new AnnounceDaoImpl();
         try {
             int insert = announceDao.insert(announce);
-            System.out.println(insert);
+            SqlSessionUtil.commitSqlSession();
             return insert == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -26,9 +26,11 @@ public class AnnounceServiceImpl implements AnnounceService {
     public List<Announce> getAllAnnounce() {
         AnnounceDao announceDao = new AnnounceDaoImpl();
         try {
-            return announceDao.selectAllAnnounce();
-        } finally {
+            List<Announce> announces = announceDao.selectAllAnnounce();
             SqlSessionUtil.commitSqlSession();
+            return announces;
+        } finally {
+            SqlSessionUtil.closeSqlSession();
         }
 
     }
@@ -55,9 +57,10 @@ public class AnnounceServiceImpl implements AnnounceService {
                     delete = false;
                 }
             }
+            SqlSessionUtil.commitSqlSession();
             return delete;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
 
     }

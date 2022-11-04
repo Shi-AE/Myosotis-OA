@@ -35,6 +35,7 @@ public class EntryServiceImpl implements EntryService {
             }
             finally {
                 SqlSessionUtil.commitSqlSession();
+                SqlSessionUtil.closeSqlSession();
             }
         } else {
             // 手机号查询
@@ -45,6 +46,7 @@ public class EntryServiceImpl implements EntryService {
                 throw new NumberErrException();
             } finally {
                 SqlSessionUtil.commitSqlSession();
+                SqlSessionUtil.closeSqlSession();
             }
         }
         return result;
@@ -52,15 +54,15 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     public boolean adminVerify(String account, String password) throws  AccountErrException {
-
         //管理员账号查询
         try {
             Cipher cipher = new AdminDaoImpl().selectByAccount(account);
+            SqlSessionUtil.commitSqlSession();
             return MD5.MD5Verify(password, cipher);
         } catch (NullPointerException e) {
             throw new AccountErrException();
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -73,11 +75,12 @@ public class EntryServiceImpl implements EntryService {
         try {
             if (account.contains("@")) {
                 userDao.updateTokenByEmil(account, token);
+                SqlSessionUtil.commitSqlSession();
             } else {
                 userDao.updateTokenByPhoneNumber(account, token);
             }
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
         //token存cookie
         Cookie cookie = new Cookie("token", token);
@@ -92,6 +95,7 @@ public class EntryServiceImpl implements EntryService {
         UserDao userDao = new UserDaoImpl();
         try {
             User user = userDao.selectByToken(token);
+            SqlSessionUtil.commitSqlSession();
             if (user != null) {
                 String emil = user.getEmil();
                 String phoneNumber = user.getPhoneNumber();
@@ -104,7 +108,7 @@ public class EntryServiceImpl implements EntryService {
             }
             return null;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -120,21 +124,22 @@ public class EntryServiceImpl implements EntryService {
                 //查手机
                 employId = userDao.selectEmployIdByPhoneNumber(account);
             }
+            SqlSessionUtil.commitSqlSession();
             return employId;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
     @Override
     public List<Admin> getAdminList() {
         AdminDao adminDao = new AdminDaoImpl();
-        List<Admin> admins;
         try {
-            admins = adminDao.selectAllAdmin();
-        } finally {
+            List<Admin> admins = adminDao.selectAllAdmin();
             SqlSessionUtil.commitSqlSession();
+            return admins;
+        } finally {
+            SqlSessionUtil.closeSqlSession();
         }
-        return admins;
     }
 }

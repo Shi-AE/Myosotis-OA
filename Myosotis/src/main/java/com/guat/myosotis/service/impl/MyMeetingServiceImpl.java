@@ -27,9 +27,10 @@ public class MyMeetingServiceImpl implements MyMeetingService {
         try {
             //存入会议信息
             int count = meetingDao.insert(myMeeting);
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -44,9 +45,10 @@ public class MyMeetingServiceImpl implements MyMeetingService {
             } else {
                 employId = userDao.selectEmployIdByPhoneNumber(account);
             }
+            SqlSessionUtil.commitSqlSession();
             return myMeetingDao.selectAllByEmploy(employId);
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -56,9 +58,10 @@ public class MyMeetingServiceImpl implements MyMeetingService {
         MyMeetingDao myMeetingDao = new MyMeetingDaoImpl();
         try {
             int count = myMeetingDao.deleteById(id);
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 

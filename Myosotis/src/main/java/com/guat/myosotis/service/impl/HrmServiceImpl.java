@@ -42,9 +42,10 @@ public class HrmServiceImpl implements HrmService {
                 );
                 count = userDao.updatePasswordByPhoneNumber(user);
             }
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -61,9 +62,10 @@ public class HrmServiceImpl implements HrmService {
         );
         try {
             int count = adminDao.updatePasswordByAccount(admin);
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -75,9 +77,10 @@ public class HrmServiceImpl implements HrmService {
         AdminDao adminDao = new AdminDaoImpl();
         try {
             int count = adminDao.insertAdmin(admin);
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
 
     }

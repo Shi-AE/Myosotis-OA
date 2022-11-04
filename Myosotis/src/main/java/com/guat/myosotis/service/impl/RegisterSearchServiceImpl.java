@@ -14,9 +14,11 @@ public class RegisterSearchServiceImpl implements RegisterSearchService {
     public List<String> managerSearch() {
         EmployDao employDao = new EmployDaoImpl();
         try {
-            return employDao.selectAllName();
-        } finally {
+            List<String> name = employDao.selectAllName();
             SqlSessionUtil.commitSqlSession();
+            return name;
+        } finally {
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -24,9 +26,11 @@ public class RegisterSearchServiceImpl implements RegisterSearchService {
     public List<String> deptSearch() {
         DeptDao deptDao = new DeptDaoImpl();
         try {
-            return deptDao.selectAllName();
-        } finally {
+            List<String> name = deptDao.selectAllName();
             SqlSessionUtil.commitSqlSession();
+            return name;
+        } finally {
+            SqlSessionUtil.closeSqlSession();
         }
     }
 }

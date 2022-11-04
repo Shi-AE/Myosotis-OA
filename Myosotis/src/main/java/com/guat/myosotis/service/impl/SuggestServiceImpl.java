@@ -20,9 +20,10 @@ public class SuggestServiceImpl implements SuggestService {
             //添加
             SuggestDao suggestDao = new SuggestDaoImpl();
             int insert = suggestDao.insert(new Suggest(null, target, content ,sender));
+            SqlSessionUtil.commitSqlSession();
             return insert == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -37,9 +38,10 @@ public class SuggestServiceImpl implements SuggestService {
                 sender = employDao.selectNameByEmployId(sender);
                 e.setSender(sender);
             });
+            SqlSessionUtil.commitSqlSession();
             return suggests;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -50,9 +52,10 @@ public class SuggestServiceImpl implements SuggestService {
             //删除
             SuggestDao suggestDao = new SuggestDaoImpl();
             int count = suggestDao.deleteById(id);
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
 
     }

@@ -46,12 +46,21 @@ public class SqlSessionUtil {
     }
 
     /**
-     * 关闭，提交，从线程中移除会话
+     * 提交事务
      */
     public static void commitSqlSession() {
         SqlSession sqlSession = SqlSessionUtil.getSqlSession();
         if (sqlSession != null) {
             sqlSession.commit();
+        }
+    }
+
+    /**
+     * 关闭，从线程中移除会话
+     */
+    public static void closeSqlSession() {
+        SqlSession sqlSession = SqlSessionUtil.getSqlSession();
+        if (sqlSession != null) {
             sqlSession.close();
             local.remove();
         }

@@ -28,9 +28,11 @@ public class DocumentServiceImpl implements DocumentService {
     public String getTargetEmployId(String name) {
         EmployDao employDao = new EmployDaoImpl();
         try {
-            return employDao.selectEmployIdByName(name);
-        } finally {
+            String employIdByName = employDao.selectEmployIdByName(name);
             SqlSessionUtil.commitSqlSession();
+            return employIdByName;
+        } finally {
+            SqlSessionUtil.closeSqlSession();
         }
 
     }
@@ -40,9 +42,10 @@ public class DocumentServiceImpl implements DocumentService {
         DocumentDao documentDao = new DocumentDaoImpl();
         try {
             int insert = documentDao.insert(document);
+            SqlSessionUtil.commitSqlSession();
             return insert == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -57,9 +60,10 @@ public class DocumentServiceImpl implements DocumentService {
                 sender = employDao.selectNameByEmployId(sender);
                 e.setSender(sender);
             });
+            SqlSessionUtil.commitSqlSession();
             return documents;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
     }
 
@@ -68,9 +72,11 @@ public class DocumentServiceImpl implements DocumentService {
         Long id = Long.valueOf(sId);
         DocumentDao documentDao = new DocumentDaoImpl();
         try {
-            return documentDao.selectFileById(id);
-        } finally {
+            byte[] file = documentDao.selectFileById(id);
             SqlSessionUtil.commitSqlSession();
+            return file;
+        } finally {
+            SqlSessionUtil.closeSqlSession();
         }
 
     }
@@ -81,9 +87,10 @@ public class DocumentServiceImpl implements DocumentService {
         DocumentDao documentDao = new DocumentDaoImpl();
         try {
             int count = documentDao.deleteFileById(id);
+            SqlSessionUtil.commitSqlSession();
             return count == 1;
         } finally {
-            SqlSessionUtil.commitSqlSession();
+            SqlSessionUtil.closeSqlSession();
         }
 
     }
