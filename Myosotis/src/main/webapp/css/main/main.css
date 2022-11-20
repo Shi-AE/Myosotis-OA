@@ -1,5 +1,5 @@
 header {
-    background-color: #1CC09F;
+    background-color: #1071FA;
     height: 60px;
 
     transform-style: preserve-3d;
@@ -33,7 +33,7 @@ main {
 
 main nav {
     width: 250px;
-    background-color: #283643;
+    background-color: #4FA8EA;
 
     overflow: auto;
 }
@@ -45,9 +45,10 @@ nav .btn-group-vertical {
 
 .btn-group-vertical .btn {
     height: 60px;
-    margin: 5px 0;
-    color: #1CC09F;
-    border-color: #1CC09F;
+    line-height: 50px;
+    margin: 1px 0;
+    color: #ffffff;
+    border-color: #363BC0;
 }
 
 .btn-group-vertical .btn:hover {
