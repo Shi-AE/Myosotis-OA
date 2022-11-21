@@ -8,7 +8,7 @@ $().ready(() => {
     */
 
     $.ajax({
-        url: "../../meeting/get/servlet",
+        url: "../../meeting/get/servlet.do",
         type: "GET",
         success: (res) => {
             // console.log(res);
@@ -33,7 +33,7 @@ $().ready(() => {
     */
 
     $.ajax({
-        url: "../../suggest/get/servlet",
+        url: "../../suggest/get/servlet.do",
         type: "GET",
         dataType: "JSON",
         success: (res) => {
@@ -56,7 +56,7 @@ $().ready(() => {
     */
 
     $.ajax({
-        url: "../../document/get/servlet",
+        url: "../../document/get/servlet.do",
         type: "GET",
         success: (res) => {
             res = JSON.parse(res);
@@ -79,7 +79,7 @@ $().ready(() => {
     */
 
     $.ajax({
-        url: "../../suggest/get/servlet",
+        url: "../../suggest/get/servlet.do",
         type: "GET",
         dataType: "JSON",
         success: (res) => {

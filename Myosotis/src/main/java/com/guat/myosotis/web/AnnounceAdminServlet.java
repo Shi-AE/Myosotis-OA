@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.UUID;
 
-@WebServlet("/announce/servlet")
+@WebServlet("/announce/servlet.do")
 @MultipartConfig(maxFileSize = 64*1024*1024)
 public class AnnounceAdminServlet extends HttpServlet {
     @Override

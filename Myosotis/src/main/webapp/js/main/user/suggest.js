@@ -7,7 +7,7 @@ $().ready(() => {
     //一次性获取
     $("select").one("click",(e) => {
         $.ajax({
-            url: "../../register/search/servlet",
+            url: "../../register/search/servlet.do",
             type: "GET",
             data: {
                 name: "manager"
@@ -28,7 +28,7 @@ $().ready(() => {
 
     $("#submit").click(() => {
         $.ajax({
-            url: "../../suggest/send/servlet",
+            url: "../../suggest/send/servlet.do",
             type: "POST",
             data: $("form").serialize(),
             success: (res) => {
@@ -51,7 +51,7 @@ $().ready(() => {
     */
 
     $.ajax({
-        url: "../../suggest/get/servlet",
+        url: "../../suggest/get/servlet.do",
         type: "GET",
         dataType: "JSON",
         success: (res) => {
@@ -71,7 +71,7 @@ $().ready(() => {
     $(".recept").click((e) => {
         if($(e.target).is($("button"))) {
             $.ajax({
-                url: "../../suggest/delete/servlet",
+                url: "../../suggest/delete/servlet.do",
                 type: "POST",
                 data: {
                     id: $(e.target).attr("index")

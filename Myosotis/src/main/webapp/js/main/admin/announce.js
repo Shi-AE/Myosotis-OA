@@ -15,7 +15,7 @@ $().ready(() => {
         // console.log(files[0]);
 
         $.ajax({
-            url: "../../announce/servlet",
+            url: "../../announce/servlet.do",
             type: "POST",
             data: data,
             cache: false,
@@ -40,7 +40,7 @@ $().ready(() => {
             let confirm = window.confirm("确认删除吗");
             if (confirm) {
                 $.ajax({
-                    url: "../../announce/delete/servlet",
+                    url: "../../announce/delete/servlet.do",
                     type: "POST",
                     data: {
                         id: $(e.target).attr("index")
@@ -69,7 +69,7 @@ $().ready(() => {
 
     $("#delete").click(() => {
         $.ajax({
-            url: "../../announce/get/servlet",
+            url: "../../announce/get/servlet.do",
             type: "GET",
             success: (res) => {
                 res = JSON.parse(res);

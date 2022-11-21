@@ -2,7 +2,7 @@ $().ready(() => {
     $("#resetUserSubmit").click(() => {
         // console.log($("#resetUser").serialize());
         $.ajax({
-            url: "../../reset/user/servlet",
+            url: "../../reset/user/servlet.do",
             type: "POST",
             data: $("#resetUser").serialize(),
             success: (res) => {
@@ -19,7 +19,7 @@ $().ready(() => {
     $("#resetAdminSubmit").click(() => {
         // console.log($("#resetAdmin").serialize());
         $.ajax({
-            url: "../../reset/admin/servlet",
+            url: "../../reset/admin/servlet.do",
             type: "POST",
             data: $("#resetAdmin").serialize(),
             success: (res) => {
@@ -35,7 +35,7 @@ $().ready(() => {
 
     $("#updateAdminSubmit").click(() => {
         $.ajax({
-            url: "../../update/admin/servlet",
+            url: "../../update/admin/servlet.do",
             type: "POST",
             data: $("#updateAdmin").serialize(),
             success: (res) => {

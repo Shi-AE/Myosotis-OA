@@ -14,7 +14,7 @@ $().ready(() => {
 
     const get = () =>{
         $.ajax({
-            url: "../../property/get/servlet",
+            url: "../../property/get/servlet.do",
             type: "GET",
             dataType: "JSON",
             success: (res) => {
@@ -39,7 +39,7 @@ $().ready(() => {
 
     $("#add").click(() => {
         $.ajax({
-            url: "../../property/add/servlet",
+            url: "../../property/add/servlet.do",
             type: "POST",
             data: $("form").serialize(),
             success: (res) => {
@@ -58,7 +58,7 @@ $().ready(() => {
     $(".manager").click((e) => {
         if ($(e.target).is($(".updete"))) {
             $.ajax({
-                url: "../../property/update/servlet",
+                url: "../../property/update/servlet.do",
                 type: "POST",
                 data: {
                     id: $(e.target).attr("index"),
@@ -77,7 +77,7 @@ $().ready(() => {
             });
         } else if($(e.target).is($(".delete"))) {
             $.ajax({
-                url: "../../property/delete/servlet",
+                url: "../../property/delete/servlet.do",
                 type: "POST",
                 data: {
                     id: $(e.target).attr("index")

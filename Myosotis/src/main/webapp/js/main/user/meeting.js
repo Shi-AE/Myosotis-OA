@@ -11,7 +11,7 @@ $().ready(() => {
 
     queryMeeting = () => {
         $.ajax({
-            url: "../../meeting/get/servlet",
+            url: "../../meeting/get/servlet.do",
             type: "GET",
             success: (res) => {
                 // console.log(res);

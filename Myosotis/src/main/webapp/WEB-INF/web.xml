@@ -21,15 +21,6 @@
         <filter-name>TokenFilter</filter-name>
         <url-pattern>/index.html</url-pattern>
     </filter-mapping>
-    
-    <filter>
-        <filter-name>EntryFilter</filter-name>
-        <filter-class>com.guat.myosotis.filter.EntryFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>EntryFilter</filter-name>
-        <url-pattern>/main/*</url-pattern>
-    </filter-mapping>
 
     <filter>
         <filter-name>UserTypeFilter</filter-name>

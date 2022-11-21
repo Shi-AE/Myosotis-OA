@@ -12,7 +12,7 @@ import org.apache.commons.codec.CharEncoding;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/document/download/servlet")
+@WebServlet("/document/download/servlet.do")
 public class DocumentDownloadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

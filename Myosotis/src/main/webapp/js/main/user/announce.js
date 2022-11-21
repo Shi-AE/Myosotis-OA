@@ -15,7 +15,7 @@ $().ready(() => {
     */
 
     $.ajax({
-        url: "../../announce/get/servlet",
+        url: "../../announce/get/servlet.do",
         type: "GET",
         success: (res) => {
             // console.log(res);

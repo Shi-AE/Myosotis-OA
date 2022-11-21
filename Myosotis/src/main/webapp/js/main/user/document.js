@@ -7,7 +7,7 @@ $().ready(() => {
     //一次性获取
     $("select").one("click",(e) => {
         $.ajax({
-            url: "../../register/search/servlet",
+            url: "../../register/search/servlet.do",
             type: "GET",
             data: {
                 name: "manager"
@@ -41,7 +41,7 @@ $().ready(() => {
         // console.log(files[0]);
 
         $.ajax({
-            url: "../../document/send/servlet",
+            url: "../../document/send/servlet.do",
             type: "POST",
             data: data,
             cache: false,
@@ -71,7 +71,7 @@ $().ready(() => {
     */
 
     $.ajax({
-        url: "../../document/get/servlet",
+        url: "../../document/get/servlet.do",
         type: "GET",
         success: (res) => {
             res = JSON.parse(res);
@@ -96,7 +96,7 @@ $().ready(() => {
 
     $(".recept").click((e) => {
         if($(e.target).is($(".get"))) {
-            fetch(`../../document/download/servlet?id=${$(e.target).attr("index")}`,{
+            fetch(`../../document/download/servlet.do?id=${$(e.target).attr("index")}`,{
                 method: 'get',
                 responseType: 'arraybuffer'
             })
@@ -119,7 +119,7 @@ $().ready(() => {
     $(".recept").click((e) => {
         if($(e.target).is($(".delete"))) {
             $.ajax({
-                url: "../../document/delete/servlet",
+                url: "../../document/delete/servlet.do",
                 type: "POST",
                 data: {id: $(e.target).attr("index")},
                 success: (res) => {

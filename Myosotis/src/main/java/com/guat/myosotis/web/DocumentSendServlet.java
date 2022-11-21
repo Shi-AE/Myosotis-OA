@@ -15,7 +15,7 @@ import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/document/send/servlet")
+@WebServlet("/document/send/servlet.do")
 @MultipartConfig(maxFileSize = 4 * 1024 * 1024 * 1024L)
 public class DocumentSendServlet extends HttpServlet {
     @Override
