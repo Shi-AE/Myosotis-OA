@@ -26,3 +26,4 @@ hs_err_pid*
 /Myosotis/target/
 /.idea/
 /Myosotis/src/main/webapp/.vscode/
+/Myosotis/src/test/
